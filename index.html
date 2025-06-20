@@ -64,20 +64,6 @@
       from { opacity: 0; transform: translateY(20px);}
       to { opacity: 1; transform: translateY(0);}
     }
-    .resultado ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    .resultado li {
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .resultado i {
-      color: #0d6efd;
-      font-size: 1.2em;
-    }
     .btn-primary, .btn-outline-secondary {
       font-weight: 500;
       letter-spacing: 0.5px;
@@ -99,6 +85,10 @@
       .logo-gi { width: 30px; height: 30px; font-size: 1em;}
       .card { padding: 1rem !important; }
       .resultado { font-size: 0.98rem; }
+      .table-responsive { font-size: 0.95rem; }
+    }
+    .table th, .table td {
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -227,13 +217,6 @@
       "Inox": 0.015
     };
 
-    // Sugestão de bomba 3CV (faixa padrão)
-    const bomba3CV = {
-      potencia: "3 CV",
-      faixaVazao: "10 a 18 m³/h",
-      faixaHMT: "18 a 32 m"
-    };
-
     let chartHf = null;
 
     function calcular() {
@@ -302,20 +285,53 @@
       // HMT
       const HMT = Hgeom + hf + hacessorios;
 
-      // Sugestão de bomba
-      let sugestaoBomba = "";
-      if (
-        Q_m3h >= 10 && Q_m3h <= 18 &&
-        HMT >= 18 && HMT <= 32
-      ) {
-        sugestaoBomba = `<span class="badge bg-success"><i class="bi bi-check-circle"></i> Compatível</span> Bomba 3CV<br>
-        <small>Faixa típica: ${bomba3CV.faixaVazao} | ${bomba3CV.faixaHMT}</small>`;
-      } else {
-        sugestaoBomba = `<span class="badge bg-warning text-dark"><i class="bi bi-exclamation-circle"></i> Fora da faixa ideal</span> Bomba 3CV<br>
-        <small>Faixa típica: ${bomba3CV.faixaVazao} | ${bomba3CV.faixaHMT}</small>`;
+      // Tabela de bombas exemplo
+      const bombas = [
+        { modelo: "2 CV", faixaVazao: [6, 12], faixaHMT: [15, 25] },
+        { modelo: "3 CV", faixaVazao: [10, 18], faixaHMT: [18, 32] },
+        { modelo: "5 CV", faixaVazao: [16, 28], faixaHMT: [25, 40] }
+      ];
+
+      let algumaCompativel = false;
+      let tabelaBombas = `
+      <div class="table-responsive">
+      <table class="table table-sm table-bordered align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Bomba</th>
+            <th>Faixa Vazão (m³/h)</th>
+            <th>Faixa HMT (m)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+      `;
+
+      bombas.forEach(b => {
+        const compativel = 
+          Q_m3h >= b.faixaVazao[0] && Q_m3h <= b.faixaVazao[1] &&
+          HMT >= b.faixaHMT[0] && HMT <= b.faixaHMT[1];
+        if (compativel) algumaCompativel = true;
+        tabelaBombas += `
+          <tr>
+            <td>${b.modelo}</td>
+            <td>${b.faixaVazao[0]} - ${b.faixaVazao[1]}</td>
+            <td>${b.faixaHMT[0]} - ${b.faixaHMT[1]}</td>
+            <td>
+              ${compativel 
+                ? '<span class="badge bg-success"><i class="bi bi-check-circle"></i> Compatível</span>' 
+                : '<span class="badge bg-warning text-dark"><i class="bi bi-exclamation-circle"></i> Fora da faixa</span>'}
+            </td>
+          </tr>
+        `;
+      });
+      tabelaBombas += `</tbody></table></div>`;
+
+      if (!algumaCompativel) {
+        tabelaBombas += `<div class="alert alert-danger mt-2 mb-0"><i class="bi bi-x-circle"></i> Nenhuma bomba padrão é totalmente compatível com os parâmetros calculados. Considere revisar o projeto ou consultar o fabricante.</div>`;
       }
 
-      // Exibir resultados
+      // Exibir resultados em tabela
       document.getElementById("saida").classList.remove("d-none");
       document.getElementById("saida").innerHTML = `
         <h5 class="mb-3 text-primary"><i class="bi bi-bar-chart-line"></i> Resultados Técnicos</h5>
@@ -332,7 +348,7 @@
               </tr>
               <tr>
                 <th><i class="bi bi-speedometer2"></i> Velocidade do fluido</th>
-                <td>${v.toFixed(5)} m/s</td>
+                <td>${v.toFixed(5)} m/s <span class="text-muted">(valor dividido por 1000)</span></td>
               </tr>
               <tr>
                 <th><i class="bi bi-123"></i> Número de Reynolds</th>
@@ -356,7 +372,7 @@
               </tr>
               <tr>
                 <th><i class="bi bi-lightning-charge"></i> Sugestão de bomba</th>
-                <td>${sugestaoBomba}</td>
+                <td>${tabelaBombas}</td>
               </tr>
             </tbody>
           </table>
@@ -368,7 +384,7 @@
       document.getElementById("btn-print").style.display = "inline-block";
 
       // Gráfico de curva de perda de carga
-      gerarGraficoCurva(D, L, f, Hgeom, percAcessorios);
+      gerarGraficoCurva(D, L, f, Hgeom, 0.15);
 
       // Scroll para resultados
       setTimeout(() => {
@@ -387,7 +403,7 @@
       for (let q = 5; q <= 25; q += 1) {
         const Q_m3s = q / 3.6;
         const A = (pi * D * D) / 4;
-        const v = Q_m3s / A;
+        const v = (Q_m3s / A) / 1000; // Dividido por 1000
         const Re = (v * D) / nu;
         let f_local = f;
         if (Re < 2000) f_local = 64 / Re;
