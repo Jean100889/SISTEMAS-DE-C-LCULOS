@@ -1,821 +1,774 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Calculadora Hidráulica Avançada - GI Digital</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    html, body {
-      font-family: 'Inter', Arial, sans-serif;
-      background: linear-gradient(120deg, #e0eafc 0%, #f8fafc 100%);
-      min-height: 100vh;
-      color: #222;
-    }
-    
-    .navbar {
-      border-radius: 0 0 18px 18px;
-      box-shadow: 0 2px 12px rgba(9,9,53,0.08);
-      background: #fff;
-      padding: 0.7rem 0;
-    }
-    
-    .navbar-brand {
-      font-weight: 700;
-      color: #1a237e !important;
-      font-size: 1.7rem;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-shadow: 0 2px 8px rgba(26,35,126,0.04);
-    }
-    
-    .card {
-      border: none;
-      border-radius: 18px;
-      box-shadow: 0 6px 32px rgba(26,35,126,0.10);
-      background: #fff;
-      padding: 2.2rem 2rem 2rem 2rem;
-      margin-bottom: 2rem;
-      transition: box-shadow 0.2s;
-    }
-    
-    .card:hover {
-      box-shadow: 0 10px 40px rgba(26,35,126,0.13);
-    }
-    
-    .form-label {
-      font-weight: 600;
-      color: #1a237e;
-      margin-bottom: 0.2rem;
-    }
-    
-    .input-group-text {
-      background: #e3eafc;
-      border: none;
-      color: #1a237e;
-      font-weight: 600;
-    }
-    
-    .form-control, .form-select {
-      border-radius: 8px;
-      border: 1.5px solid #e3eafc;
-      background: #f8fafc;
-      font-size: 1.05em;
-      transition: border-color 0.2s;
-    }
-    
-    .form-control:focus, .form-select:focus {
-      border-color: #1a237e;
-      box-shadow: 0 0 0 2px #e3eafc;
-      background: #fff;
-    }
-    
-    .form-control.is-invalid, .form-select.is-invalid {
-      border-color: #e53935;
-      background: #fff0f0;
-    }
-    
-    .btn {
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 1.08em;
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-      box-shadow: 0 1px 4px rgba(26,35,126,0.07);
-    }
-    
-    .btn-primary {
-      background: linear-gradient(90deg, #1a237e 70%, #3949ab 100%);
-      color: #fff !important;
-      border: none;
-    }
-    
-    .btn-primary:hover, .btn-primary:focus {
-      background: linear-gradient(90deg, #3949ab 70%, #1a237e 100%);
-      color: #fff !important;
-      box-shadow: 0 2px 12px rgba(26,35,126,0.13);
-    }
-    
-    .btn-outline-primary, .btn-outline-secondary, .btn-outline-success {
-      border-width: 2px;
-      background: #f8fafc;
-      color: #1a237e !important;
-    }
-    
-    .btn-outline-primary:hover, .btn-outline-secondary:hover, .btn-outline-success:hover {
-      background: #1a237e !important;
-      color: #fff !important;
-      border-color: #1a237e !important;
-    }
-    
-    .btn-outline-primary:active, .btn-outline-secondary:active, .btn-outline-success:active {
-      background: #3949ab !important;
-      color: #fff !important;
-    }
-    
-    .titulo-principal {
-      color: #1a237e !important;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 1.5rem;
-      text-shadow: 0 2px 8px rgba(26,35,126,0.04);
-    }
-    
-    .resultado {
-      background: #f4f8ff;
-      border-left: 6px solid #3949ab;
-      padding: 22px 28px;
-      margin-top: 28px;
-      border-radius: 12px;
-      font-size: 1.12rem;
-      box-shadow: 0 2px 12px rgba(26,35,126,0.07);
-      animation: fadeIn 0.7s;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    
-    .table {
-      border-radius: 10px;
-      overflow: hidden;
-      background: #fff;
-      margin-bottom: 0;
-    }
-    
-    .table th, .table td {
-      vertical-align: middle;
-      border: none;
-      font-size: 1.04em;
-    }
-    
-    .table thead th {
-      background: #e3eafc;
-      color: #1a237e;
-      font-weight: 700;
-      border-bottom: 2px solid #c5cae9;
-    }
-    
-    .table tbody tr:nth-child(even) {
-      background: #f8fafc;
-    }
-    
-    .badge {
-      font-size: 1em;
-      border-radius: 6px;
-      padding: 0.5em 0.8em;
-      font-weight: 600;
-    }
-    
-    .badge.bg-success {
-      background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
-      color: #1a237e;
-    }
-    
-    .badge.bg-warning {
-      background: linear-gradient(90deg, #ffe259 0%, #ffa751 100%);
-      color: #1a237e;
-    }
-    
-    .badge.bg-danger {
-      background: linear-gradient(90deg, #ff5858 0%, #f09819 100%);
-      color: #fff;
-    }
-    
-    .chart-container {
-      background: rgba(244, 248, 255, 0.95);
-      border-radius: 14px;
-      padding: 22px 16px 18px 16px;
-      margin-top: 28px;
-      box-shadow: 0 1px 8px rgba(26,35,126,0.06);
-      min-height: 350px;
-      height: 400px;
-    }
-    
-    canvas {
-      min-height: 320px !important;
-      height: 380px !important;
-      max-width: 100%;
-      display: block;
-      margin: 0 auto;
-      background: transparent;
-    }
-    
-    .table-responsive {
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 0;
-    }
-    
-    .bi-info-circle {
-      font-size: 1.1em;
-      vertical-align: middle;
-      margin-left: 2px;
-      color: #3949ab;
-      opacity: 0.8;
-    }
-    
-    .alert-danger {
-      background: linear-gradient(90deg, #ffdde1 0%, #ee9ca7 100%);
-      color: #b71c1c;
-      border: none;
-      font-weight: 600;
-      border-radius: 8px;
-    }
-    
-    .alert-success {
-      background: linear-gradient(90deg, #e0ffe9 0%, #b2fefa 100%);
-      color: #1b5e20;
-      border: none;
-      font-weight: 600;
-      border-radius: 8px;
-    }
-    
-    .alert-warning {
-      background: linear-gradient(90deg, #fffde4 0%, #f9d423 100%);
-      color: #ff6f00;
-      border: none;
-      font-weight: 600;
-      border-radius: 8px;
-    }
-    
-    .table th, .table td {
-      padding: 0.7em 1em;
-    }
-    
-    .table th {
-      font-size: 1.08em;
-    }
-    
-    .table td {
-      font-size: 1.04em;
-    }
-    
-    .table-bordered > :not(caption) > * > * {
-      border-width: 0 0 1.5px 0;
-      border-color: #e3eafc;
-    }
-    
-    .table-bordered > :not(caption) > *:last-child > * {
-      border-bottom-width: 0;
-    }
-    
-    .tooltip-inner {
-      background: #3949ab;
-      color: #fff;
-      font-size: 1em;
-      border-radius: 6px;
-      padding: 0.5em 1em;
-    }
-    
-    .input-group-text i {
-      color: #3949ab;
-    }
-    
-    /* Responsividade */
-    @media (max-width: 991px) {
-      .card { padding: 1.2rem 0.7rem 1.2rem 0.7rem; }
-      .chart-container { padding: 12px 4px 10px 4px; }
-      .resultado { padding: 14px 8px; }
-    }
-    
-    @media (max-width: 767px) {
-      .navbar-brand { font-size: 1.1rem; }
-      .card { padding: 0.7rem !important; }
-      .resultado { font-size: 0.98rem; }
-      .table-responsive { font-size: 0.95rem; }
-      .chart-container { min-height: 220px; height: 260px; }
-      canvas { min-height: 180px !important; height: 220px !important; }
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora Hidráulica Avançada - GI Digital</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Custom Tailwind CSS configuration to extend the color palette
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-navy': {
+                            DEFAULT: '#090935',    // Cor principal escura solicitada
+                            '50': '#E8E8F5',       // Para fundos muito claros (ex: resultados)
+                            '100': '#D1D1EB',      // Tom mais claro para gradiente de fundo
+                            '200': '#A0A0BF',      // Para bordas
+                            '300': '#707094',
+                            '400': '#4D4D73',      // Para anéis de foco e checkboxes
+                            '500': '#36365C',      // Tom médio para texto/links
+                            '600': '#2A2A47',
+                            '700': '#1F1F3D',      // Para botões de cálculo
+                            '800': '#15152E',      // Para hover de botões/links principais
+                            '900': '#050520',      // Tom mais escuro para hover de navegação
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts for Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* Custom styles for Inter font and general body appearance */
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            /* Gradiente de fundo com base na nova cor dark-navy-100 */
+            background: linear-gradient(120deg, #D1D1EB 0%, #F5F5FA 100%);
+            min-height: 100vh;
+            color: #222;
+        }
+        /* Specific styles for responsive navigation, similar to React version */
+        @media (max-width: 768px) {
+            .nav-link-item {
+                display: block;
+                padding: 0.5rem 1rem;
+                width: 100%;
+                text-align: center;
+            }
+            .hidden.md\:flex {
+                display: none;
+            }
+            .md\:hidden {
+                display: block;
+            }
+        }
+    </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg mb-4 sticky-top">
-    <div class="container">
-      <a class="navbar-brand mx-auto" href="#">
-        Calculadora Hidráulica Avançada
-      </a>
-    </div>
-  </nav>
-  <div class="container py-4">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 col-md-10">
-        <div class="card p-4">
-          <h2 class="text-center mb-4 fw-bold titulo-principal">
-            Bombeamento de Caldas Agrícolas
-          </h2>
-          <form id="form-calc" autocomplete="off">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label" for="volume">
-                  Volume da calda (litros)
-                  <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" title="Volume total da calda a ser bombeada"></i>
-                </label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-droplet"></i></span>
-                  <input type="number" id="volume" class="form-control" value="3000" min="1" required />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label" for="tempo">
-                  Tempo de transferência (min)
-                  <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" title="Tempo total de bombeamento em minutos"></i>
-                </label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-clock"></i></span>
-                  <input type="number" id="tempo" class="form-control" value="3.5" min="0.1" step="0.1" required />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label" for="diametro">
-                  Diâmetro interno da tubulação (mm)
-                  <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" title="Diâmetro interno da tubulação em milímetros"></i>
-                </label>
-                <div class="input-group">
-                  <span class="input-group-text">Ø</span>
-                  <input type="number" id="diametro" class="form-control" value="110" step="1" min="10" required/>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label" for="comprimento">
-                  Comprimento da tubulação (m)
-                  <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" title="Comprimento total da tubulação em metros"></i>
-                </label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-rulers"></i></span>
-                  <input type="number" id="comprimento" class="form-control" value="30" min="1" required />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label" for="altura">
-                  Altura geométrica (m)
-                  <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" title="Altura vertical entre o ponto de sucção e o ponto de recalque"></i>
-                </label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-arrow-up"></i></span>
-                  <input type="number" id="altura" class="form-control" value="2" min="0" required />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label" for="material">
-                  Material da tubulação
-                  <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" title="Selecione o material da tubulação"></i>
-                </label>
-                <select id="material" class="form-select" required>
-                  <option value="PVC" selected>PVC</option>
-                  <option value="PEAD">PEAD</option>
-                  <option value="Aço">Aço</option>
-                  <option value="Inox">Inox</option>
-                </select>
-              </div>
-            </div>
-            <div class="d-flex gap-2 mt-4 flex-wrap">
-              <button type="button" class="btn btn-primary flex-fill" onclick="calcular()">
-                <i class="bi bi-play-circle"></i> Calcular
-              </button>
-              <button type="reset" class="btn btn-outline-secondary flex-fill" onclick="limpar()">
-                <i class="bi bi-eraser"></i> Limpar
-              </button>
-              <button type="button" class="btn btn-outline-primary flex-fill" id="btn-pdf" onclick="exportarPDF()" style="display:none;">
-                <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
-              </button>
-              <button type="button" class="btn btn-outline-success flex-fill" id="btn-print" onclick="window.print()" style="display:none;">
-                <i class="bi bi-printer"></i> Imprimir
-              </button>
-            </div>
-          </form>
-          <div id="saida" class="resultado mt-4 d-none"></div>
-          <div id="grafico" class="chart-container d-none">
-            <h6 class="text-primary mb-2"><i class="bi bi-graph-up"></i> Curva de Perda de Carga x Vazão</h6>
-            <canvas id="chartHf"></canvas>
-          </div>
-          <div class="chart-container mt-4">
-            <h6 class="text-primary mb-2"><i class="bi bi-bar-chart"></i> Curvas das Bombas</h6>
-            <canvas id="graficoBombas"></canvas>
-          </div>
+<body class="font-inter antialiased">
+    <!-- Navigation Bar -->
+    <nav class="bg-dark-navy text-white shadow-lg p-4 sticky top-0 z-50 rounded-b-xl">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <a href="#" class="flex items-center text-xl font-bold rounded-lg px-3 py-2 hover:bg-dark-navy-800 transition-colors">
+                <i class="bi bi-calculator mr-2"></i> Calculadora Hidráulica Avançada
+            </a>
+            <button class="md:hidden text-white focus:outline-none" onclick="document.getElementById('navbarNav').classList.toggle('hidden')">
+                <i class="bi bi-list text-2xl"></i>
+            </button>
+            <ul id="navbarNav" class="hidden md:flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 mt-4 md:mt-0">
+                <li><a href="#" class="nav-link-item hover:text-dark-navy-500 transition-colors">Início</a></li>
+                <li><a href="#" class="nav-link-item hover:text-dark-navy-500 transition-colors">Sobre</a></li>
+                <li><a href="#" class="nav-link-item hover:text-dark-navy-500 transition-colors">Contato</a></li>
+            </ul>
         </div>
-      </div>
-    </div>
-  </div>
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Ativa tooltips Bootstrap
-    document.addEventListener('DOMContentLoaded', function () {
-      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-      tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-      })
-    });
+    </nav>
 
-    // Fatores de atrito aproximados por material
-    const fatoresAtrito = {
-      "PVC": 0.03,
-      "PEAD": 0.028,
-      "Aço": 0.022,
-      "Inox": 0.015
-    };
+    <!-- Main Content Area -->
+    <div class="container mx-auto py-8 px-4">
+        <div class="flex justify-center">
+            <div class="w-full lg:w-3/4 xl:w-2/3 bg-white p-6 md:p-8 rounded-xl shadow-2xl">
+                <h2 class="text-center text-3xl font-extrabold mb-6 text-dark-navy">
+                    Bombeamento de Caldas Agrícolas
+                </h2>
 
-    let chartHf = null;
-    let chartBombas = null;
+                <!-- Input Form -->
+                <form id="form-calc" onsubmit="event.preventDefault(); calcular();" class="space-y-4">
+                    <!-- Volume -->
+                    <div>
+                        <label for="volume" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Volume da calda (litros)
+                        </label>
+                        <input
+                            type="number"
+                            id="volume"
+                            class="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:border-transparent transition duration-200"
+                            value="3000"
+                            required
+                        />
+                        <p id="error-volume" class="text-red-500 text-xs mt-1 hidden"></p>
+                    </div>
+                    <!-- Tempo -->
+                    <div>
+                        <label for="tempo" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Tempo de transferência (minutos)
+                        </label>
+                        <input
+                            type="number"
+                            id="tempo"
+                            class="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:border-transparent transition duration-200"
+                            value="3.5"
+                            step="0.1"
+                            required
+                        />
+                        <p id="error-tempo" class="text-red-500 text-xs mt-1 hidden"></p>
+                    </div>
+                    <!-- Diâmetro -->
+                    <div>
+                        <label for="diametro" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Diâmetro da tubulação (mm)
+                        </label>
+                        <input
+                            type="number"
+                            id="diametro"
+                            class="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:border-transparent transition duration-200"
+                            value="110"
+                            required
+                        />
+                        <p id="error-diametro" class="text-red-500 text-xs mt-1 hidden"></p>
+                    </div>
+                    <!-- Comprimento -->
+                    <div>
+                        <label for="comprimento" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Comprimento da tubulação (m)
+                        </label>
+                        <input
+                            type="number"
+                            id="comprimento"
+                            class="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:border-transparent transition duration-200"
+                            value="30"
+                            required
+                        />
+                        <p id="error-comprimento" class="text-red-500 text-xs mt-1 hidden"></p>
+                    </div>
+                    <!-- Altura -->
+                    <div>
+                        <label for="altura" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Altura geométrica (m)
+                        </label>
+                        <input
+                            type="number"
+                            id="altura"
+                            class="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:border-transparent transition duration-200"
+                            value="2"
+                            required
+                        />
+                        <p id="error-altura" class="text-red-500 text-xs mt-1 hidden"></p>
+                    </div>
+                    <!-- Material -->
+                    <div>
+                        <label for="material" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Material da tubulação
+                        </label>
+                        <select
+                            id="material"
+                            class="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:border-transparent transition duration-200"
+                        >
+                            <option value="PVC">PVC</option>
+                            <option value="PEAD">PEAD</option>
+                            <option value="Aço">Aço</option>
+                            <option value="Inox" selected>Inox</option>
+                        </select>
+                    </div>
 
-    function calcular() {
-      const pi = Math.PI;
-      const g = 9.81;
-      const nu = 1e-6; // viscosidade cinemática da água a 20°C (m²/s)
+                    <!-- Fluid Type Selection -->
+                    <div>
+                        <label for="fluidType" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Tipo de Fluido
+                        </label>
+                        <select
+                            id="fluidType"
+                            class="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:border-transparent transition duration-200"
+                            onchange="toggleCustomViscosityInput()"
+                        >
+                            <option value="water">Água (20°C)</option>
+                            <option value="oil">Óleo (Exemplo)</option>
+                            <option value="glycol">Glicol (Exemplo)</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
 
-      // Entradas
-      const V = parseFloat(document.getElementById("volume").value);
-      const T = parseFloat(document.getElementById("tempo").value);
-      const D = parseFloat(document.getElementById("diametro").value) / 1000; // mm para m
-      const L = parseFloat(document.getElementById("comprimento").value);
-      const Hgeom = parseFloat(document.getElementById("altura").value);
-      const material = document.getElementById("material").value;
+                    <!-- Custom Viscosity Input (conditionally rendered) -->
+                    <div id="customViscosityContainer" class="hidden">
+                        <label for="customViscosity" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Viscosidade Cinemática Personalizada (m²/s)
+                        </label>
+                        <input
+                            type="number"
+                            id="customViscosity"
+                            class="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:border-transparent transition duration-200"
+                            value="0.000001"
+                            step="1e-7"
+                            required
+                        />
+                        <p id="error-customViscosity" class="text-red-500 text-xs mt-1 hidden"></p>
+                    </div>
 
-      // Validação
-      const campos = ["volume", "tempo", "diametro", "comprimento", "altura"];
-      let erro = false;
-      for (let id of campos) {
-        const el = document.getElementById(id);
-        if (!el.value || parseFloat(el.value) <= 0) {
-          el.classList.add("is-invalid");
-          erro = true;
-        } else {
-          el.classList.remove("is-invalid");
-        }
-      }
-      if (!material) {
-        document.getElementById("material").classList.add("is-invalid");
-        erro = true;
-      } else {
-        document.getElementById("material").classList.remove("is-invalid");
-      }
-      if (erro) {
-        document.getElementById("saida").classList.remove("d-none");
-        document.getElementById("saida").innerHTML = `<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Preencha todos os campos corretamente!</div>`;
-        document.getElementById("grafico").classList.add("d-none");
-        document.getElementById("btn-pdf").style.display = "none";
-        document.getElementById("btn-print").style.display = "none";
-        return;
-      }
+                    <!-- Pipe Fittings Selection -->
+                    <div class="border border-gray-300 p-4 rounded-lg">
+                        <label class="block text-gray-700 text-sm font-semibold mb-3">
+                            Acessórios da Tubulação (Perdas Localizadas)
+                        </label>
+                        <div id="fittings-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <!-- Fittings will be populated by JavaScript -->
+                        </div>
+                    </div>
 
-      // Cálculos principais
-      const Q_m3h = (V / T) * (60 / 1000); // m³/h
-      const Q_Lmin = Q_m3h * 1000 / 60; // L/min
-      const Q_m3s = Q_m3h / 3600; // m³/s (corrigido de 3.6 para 3600)
-      const A = (pi * D * D) / 4; // m²
-      const v = Q_m3s / A; // m/s (removida a divisão por 1000)
-      const Re = (v * D) / nu; // Número de Reynolds
+                    <!-- Pump Selection -->
+                    <div>
+                        <label for="selectedPump" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Selecionar Bomba
+                        </label>
+                        <select
+                            id="selectedPump"
+                            class="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:border-transparent transition duration-200"
+                        >
+                            <!-- Pumps will be populated by JavaScript -->
+                        </select>
+                    </div>
 
-      // Fator de atrito
-      let f = fatoresAtrito[material] || 0.03;
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-4">
+                        <button
+                            type="button"
+                            class="flex-1 bg-dark-navy-700 hover:bg-dark-navy-800 text-white font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-dark-navy-400 focus:ring-offset-2"
+                            onclick="calcular()"
+                        >
+                            <i class="bi bi-play-fill mr-2"></i>Calcular
+                        </button>
+                        <button
+                            type="reset"
+                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                            onclick="limpar()"
+                        >
+                            <i class="bi bi-x-lg mr-2"></i>Limpar
+                        </button>
+                        <button
+                            type="button"
+                            class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                            onclick="window.print()"
+                        >
+                            <i class="bi bi-printer mr-2"></i>Imprimir
+                        </button>
+                    </div>
+                </form>
 
-      // Ajuste para regime laminar (Re < 2000)
-      if (Re < 2000) {
-        f = 64 / Re;
-      }
+                <!-- Calculation Results Display -->
+                <div id="results-display" class="mt-6 p-4 bg-dark-navy-50 border border-dark-navy-200 text-dark-navy-800 rounded-lg shadow-inner hidden">
+                    <strong class="block text-lg font-bold mb-2">Resultados:</strong>
+                    <p><strong>Vazão:</strong> <span id="result-Q_m3h"></span> m³/h</p>
+                    <p><strong>Velocidade:</strong> <span id="result-v"></span> m/s</p>
+                    <p><strong>Reynolds:</strong> <span id="result-Re"></span></p>
+                    <p><strong>Fator de atrito:</strong> <span id="result-f"></span></p>
+                    <p><strong>Perda de carga:</strong> <span id="result-hf"></span> m</p>
+                    <p><strong>Perda em acessórios:</strong> <span id="result-hacessorios"></span> m</p>
+                    <p class="text-xl font-bold mt-2"><strong>HMT do Sistema:</strong> <span id="result-HMT"></span> m</p>
+                    <div id="operating-point-display" class="mt-3 p-3 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-md hidden">
+                        <strong class="block text-md font-bold mb-1">Ponto de Operação da Bomba Selecionada:</strong>
+                        <p><strong>Vazão de Operação:</strong> <span id="result-operatingPointQ"></span> m³/h</p>
+                        <p><strong>HMT de Operação:</strong> <span id="result-operatingPointHMT"></span> m</p>
+                        <div class="mt-2 text-sm">
+                            <p><strong>Potência Estimada da Bomba:</strong> <span id="result-estimatedPumpPower_kW"></span> kW (<span id="result-estimatedPumpPower_CV"></span> CV)</p>
+                        </div>
+                    </div>
+                </div>
 
-      // Perda de carga linear (Darcy-Weisbach)
-      const hf = f * (L / D) * ((v ** 2) / (2 * g));
+                <!-- Chart Canvas -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold text-gray-700 mb-3">Gráfico HMT x Vazão</h3>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner h-80 flex items-center justify-center">
+                        <canvas id="graficoHMT" class="max-w-full max-h-full"></canvas>
+                    </div>
+                </div>
 
-      // Perda em acessórios (estimativa 15% de hf)
-      const percAcessorios = 0.15;
-      const hacessorios = hf * percAcessorios;
+                <!-- Graph Explanation Section -->
+                <div class="mt-6 p-4 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg shadow-inner">
+                    <h4 class="text-lg font-bold mb-3 text-gray-800">Entendendo o Gráfico HMT x Vazão</h4>
+                    <p class="mb-2">Este gráfico é uma ferramenta essencial para o dimensionamento e seleção de bombas. Ele visualiza a relação entre a Altura Manométrica Total (HMT) necessária e a vazão do fluido no sistema.</p>
+                    
+                    <p class="font-semibold text-dark-navy-700 mb-1">Curva do Sistema (Linha Azul):</p>
+                    <p class="ml-4 mb-2">Representa a energia total (HMT) que a bomba precisa fornecer para movimentar um determinado volume de fluido através da tubulação, superando a altura geométrica e as perdas de carga (por atrito e em acessórios). À medida que a vazão aumenta, as perdas de carga aumentam quadraticamente, fazendo com que a HMT necessária para o sistema também aumente.</p>
 
-      // HMT
-      const HMT = Hgeom + hf + hacessorios;
+                    <p class="font-semibold text-red-700 mb-1">Curva da Bomba (Linha Vermelha):</p>
+                    <p class="ml-4 mb-2">Mostra o desempenho de uma bomba específica, indicando a HMT que ela é capaz de gerar para diferentes vazões. Tipicamente, quanto maior a vazão, menor a HMT que a bomba consegue entregar.</p>
 
-      // Tabela de bombas exemplo
-      const bombas = [
-        { modelo: "2 CV", faixaVazao: [6, 12], faixaHMT: [15, 25] },
-        { modelo: "3 CV", faixaVazao: [10, 18], faixaHMT: [18, 32] },
-        { modelo: "5 CV", faixaVazao: [16, 28], faixaHMT: [25, 40] }
-      ];
+                    <p class="font-semibold text-green-700 mb-1">Ponto de Operação (Círculo Verde):</p>
+                    <p class="ml-4 mb-2">É o ponto de intersecção entre a Curva do Sistema e a Curva da Bomba. Este ponto representa a vazão e a HMT reais nas quais a bomba operará quando instalada naquele sistema específico. É o equilíbrio entre o que o sistema demanda e o que a bomba pode fornecer.</p>
+                </div>
 
-      let algumaCompativel = false;
-      let tabelaBombas = `
-      <div class="table-responsive">
-      <table class="table table-sm table-bordered align-middle mb-0">
-        <thead class="table-light">
-          <tr>
-            <th>Bomba</th>
-            <th>Faixa Vazão (m³/h)</th>
-            <th>Faixa HMT (m)</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-      `;
-
-      bombas.forEach(b => {
-        const compativel = 
-          Q_m3h >= b.faixaVazao[0] && Q_m3h <= b.faixaVazao[1] &&
-          HMT >= b.faixaHMT[0] && HMT <= b.faixaHMT[1];
-        if (compativel) algumaCompativel = true;
-        tabelaBombas += `
-          <tr>
-            <td>${b.modelo}</td>
-            <td>${b.faixaVazao[0]} - ${b.faixaVazao[1]}</td>
-            <td>${b.faixaHMT[0]} - ${b.faixaHMT[1]}</td>
-            <td>
-              ${compativel 
-                ? '<span class="badge bg-success"><i class="bi bi-check-circle"></i> Compatível</span>' 
-                : '<span class="badge bg-warning text-dark"><i class="bi bi-exclamation-circle"></i> Fora da faixa</span>'}
-            </td>
-          </tr>
-        `;
-      });
-      tabelaBombas += `</tbody></table></div>`;
-
-      if (!algumaCompativel) {
-        tabelaBombas += `<div class="alert alert-danger mt-2 mb-0"><i class="bi bi-x-circle"></i> Nenhuma bomba padrão é totalmente compatível com os parâmetros calculados. Considere revisar o projeto ou consultar o fabricante.</div>`;
-      }
-
-      // Exibir resultados em tabela
-      document.getElementById("saida").classList.remove("d-none");
-      document.getElementById("saida").innerHTML = `
-        <h5 class="mb-3 text-primary"><i class="bi bi-bar-chart-line"></i> Resultados Técnicos</h5>
-        <div class="table-responsive">
-          <table class="table table-bordered align-middle mb-0">
-            <tbody>
-              <tr>
-                <th><i class="bi bi-arrow-repeat"></i> Vazão</th>
-                <td>${Q_m3h.toFixed(2)} m³/h<br><small>${Q_Lmin.toFixed(1)} L/min</small></td>
-              </tr>
-              <tr>
-                <th><i class="bi bi-square"></i> Área da seção</th>
-                <td>${A.toFixed(6)} m²</td>
-              </tr>
-              <tr>
-                <th><i class="bi bi-speedometer2"></i> Velocidade do fluido</th>
-                <td>${v.toFixed(5)} m/s <span class="text-muted"></span></td>
-              </tr>
-              <tr>
-                <th><i class="bi bi-123"></i> Número de Reynolds</th>
-                <td>${Re.toLocaleString(undefined, {maximumFractionDigits:0})}</td>
-              </tr>
-              <tr>
-                <th><i class="bi bi-diagram-3"></i> Fator de atrito (f)</th>
-                <td>${f.toFixed(4)} (${material})</td>
-              </tr>
-              <tr>
-                <th><i class="bi bi-water"></i> Perda de carga linear (hf)</th>
-                <td>${hf.toFixed(2)} m</td>
-              </tr>
-              <tr>
-                <th><i class="bi bi-gear"></i> Perda em acessórios (~15%)</th>
-                <td>${hacessorios.toFixed(2)} m</td>
-              </tr>
-              <tr>
-                <th><i class="bi bi-graph-up-arrow"></i> Altura Manométrica Total (HMT)</th>
-                <td>${HMT.toFixed(2)} m</td>
-              </tr>
-              <tr>
-                <th><i class="bi bi-lightning-charge"></i> Sugestão de bomba</th>
-                <td>${tabelaBombas}</td>
-              </tr>
-            </tbody>
-          </table>
+            </div>
         </div>
-      `;
+    </div>
 
-      // Mostrar botões de exportação
-      document.getElementById("btn-pdf").style.display = "inline-block";
-      document.getElementById("btn-print").style.display = "inline-block";
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let chartInstance = null; // Global variable to hold Chart.js instance
 
-      // Gráfico de curva de perda de carga
-      gerarGraficoCurva(D, L, f, Hgeom, percAcessorios);
-      gerarGraficoBombas(Q_m3h, HMT);
+        // Constants and data moved from React state to global JS variables/objects
+        const fatoresAtrito = {
+            PVC: 0.03,
+            PEAD: 0.028,
+            Aço: 0.022,
+            Inox: 0.015
+        };
 
-      // Scroll para resultados
-      setTimeout(() => {
-        document.getElementById("saida").scrollIntoView({behavior: "smooth"});
-      }, 200);
-    }
+        const fluidViscosities = {
+            water: 1e-6,
+            oil: 5e-6,
+            glycol: 1.5e-6
+        };
 
-    function gerarGraficoCurva(D, L, f, Hgeom, percAcessorios) {
-      const pi = Math.PI;
-      const g = 9.81;
-      const nu = 1e-6;
+        const fluidDensity = 1000; // kg/m³
+        const overallEfficiency = 0.65; // 65% combined efficiency
 
-      // Gera pontos de vazão de 5 a 25 m³/h
-      const vazoes = [];
-      const hmt = [];
-      for (let q = 5; q <= 25; q += 1) {
-        const Q_m3s = q / 3600; // Corrigido para converter m³/h para m³/s
-        const A = (pi * D * D) / 4;
-        const v = Q_m3s / A;
-        const Re = (v * D) / nu;
-        let f_local = f;
-        if (Re < 2000) f_local = 64 / Re;
-        const hf = f_local * (L / D) * ((v ** 2) / (2 * g));
-        const hacessorios = hf * percAcessorios;
-        const HMT = Hgeom + hf + hacessorios;
-        vazoes.push(q);
-        hmt.push(HMT);
-      }
+        const fittingKFactors = {
+            'cotovelo90': { name: 'Cotovelo 90°', k: 0.9 },
+            'cotovelo45': { name: 'Cotovelo 45°', k: 0.4 },
+            'valvulaGavetaAberta': { name: 'Válvula Gaveta (aberta)', k: 0.2 },
+            'valvulaRetencao': { name: 'Válvula de Retenção', k: 2.5 },
+            'entradaBorda': { name: 'Entrada de Borda', k: 0.5 },
+            'saidaTubulacao': { name: 'Saída de Tubulação', k: 1.0 },
+        };
 
-      document.getElementById("grafico").classList.remove("d-none");
-      const ctx = document.getElementById('chartHf').getContext('2d');
-      if (chartHf) chartHf.destroy();
-      chartHf = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: vazoes,
-          datasets: [{
-            label: 'HMT (m)',
-            data: hmt,
-            borderColor: '#1a237e',
-            backgroundColor: 'rgba(26,35,126,0.08)',
-            borderWidth: 2,
-            tension: 0.25,
-            pointRadius: 4,
-            pointBackgroundColor: '#3949ab',
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: ctx => `HMT: ${ctx.parsed.y.toFixed(2)} m`
-              }
-            }
-          },
-          scales: {
-            x: {
-              title: { 
-                display: true, 
-                text: 'Vazão (m³/h)',
-                color: '#1a237e',
-                font: {
-                  weight: 'bold'
-                }
-              },
-              grid: {
-                color: 'rgba(26,35,126,0.05)'
-              }
+        const pumpCurves = {
+            '': { name: 'Nenhuma', data: [] },
+            'pumpA': {
+                name: 'Bomba A (Exemplo)',
+                data: [
+                    { q: 0, hmt: 20 }, { q: 5, hmt: 18 }, { q: 10, hmt: 15 },
+                    { q: 15, hmt: 10 }, { q: 20, hmt: 4 }, { q: 25, hmt: 0 }
+                ]
             },
-            y: {
-              title: { 
-                display: true, 
-                text: 'Altura Manométrica Total (m)',
-                color: '#1a237e',
-                font: {
-                  weight: 'bold'
-                }
-              },
-              beginAtZero: true,
-              grid: {
-                color: 'rgba(26,35,126,0.05)'
-              }
+            'pumpB': {
+                name: 'Bomba B (Exemplo)',
+                data: [
+                    { q: 0, hmt: 25 }, { q: 5, hmt: 23 }, { q: 10, hmt: 20 },
+                    { q: 15, hmt: 16 }, { q: 20, hmt: 10 }, { q: 25, hmt: 3 }
+                ]
+            },
+            'pump3CV': {
+                name: 'Bomba 3CV (Estimativa)',
+                data: [
+                    { q: 0, hmt: 30 }, { q: 10, hmt: 28 }, { q: 20, hmt: 23 },
+                    { q: 30, hmt: 15 }, { q: 35, hmt: 8 }, { q: 40, hmt: 0 },
+                ]
             }
-          }
+        };
+
+        const pi = Math.PI;
+        const g = 9.81; // Gravity acceleration
+
+        // --- Helper Functions ---
+
+        /**
+         * Populates the pump selection dropdown and fitting checkboxes on page load.
+         */
+        function initializeFormElements() {
+            // Populate pump selection
+            const pumpSelect = document.getElementById('selectedPump');
+            for (const key in pumpCurves) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = pumpCurves[key].name;
+                pumpSelect.appendChild(option);
+            }
+            pumpSelect.value = ''; // Default to "Nenhuma"
+
+            // Populate fittings checkboxes
+            const fittingsContainer = document.getElementById('fittings-container');
+            for (const key in fittingKFactors) {
+                const div = document.createElement('div');
+                div.className = 'flex items-center';
+                div.innerHTML = `
+                    <input type="checkbox" id="${key}" value="${key}" class="form-checkbox h-4 w-4 text-dark-navy-400 rounded focus:ring-dark-navy-400">
+                    <label for="${key}" class="ml-2 text-gray-700 text-sm">${fittingKFactors[key].name} (K=${fittingKFactors[key].k})</label>
+                `;
+                fittingsContainer.appendChild(div);
+            }
         }
-      });
-    }
 
-    function gerarGraficoBombas(Q_m3h, HMT) {
-      const ctx = document.getElementById('graficoBombas').getContext('2d');
-
-      const bombas = [
-        { modelo: "2 CV", vazaoMin: 6, vazaoMax: 12, hmtMin: 15, hmtMax: 25, cor: "rgba(67, 160, 71, 0.2)", borderColor: "rgba(67, 160, 71, 1)" },
-        { modelo: "3 CV", vazaoMin: 10, vazaoMax: 18, hmtMin: 18, hmtMax: 32, cor: "rgba(57, 73, 171, 0.2)", borderColor: "rgba(57, 73, 171, 1)" },
-        { modelo: "5 CV", vazaoMin: 16, vazaoMax: 28, hmtMin: 25, hmtMax: 40, cor: "rgba(239, 108, 0, 0.2)", borderColor: "rgba(239, 108, 0, 1)" }
-      ];
-
-      if (chartBombas) chartBombas.destroy();
-
-      const datasets = bombas.map(b => ({
-        label: b.modelo,
-        data: [
-          { x: b.vazaoMin, y: b.hmtMax },
-          { x: b.vazaoMax, y: b.hmtMin }
-        ],
-        backgroundColor: b.cor,
-        borderColor: b.borderColor,
-        borderWidth: 2,
-        fill: false,
-        tension: 0.4,
-        pointRadius: 0
-      }));
-
-      // Adiciona ponto do sistema com os valores calculados
-      datasets.push({
-        label: 'Ponto do Sistema',
-        data: [{ x: Q_m3h, y: HMT }],
-        backgroundColor: '#ffc107',
-        borderColor: '#ff9800',
-        pointRadius: 8,
-        pointHoverRadius: 10,
-        type: 'scatter',
-        showLine: false
-      });
-
-      chartBombas = new Chart(ctx, {
-        type: 'line',
-        data: { datasets },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: ctx => {
-                  if (ctx.dataset.label === 'Ponto do Sistema') {
-                    return `Ponto do Sistema: ${Q_m3h.toFixed(2)} m³/h, ${HMT.toFixed(2)} m`;
-                  }
-                  return `${ctx.dataset.label}: ${ctx.raw.x} m³/h, ${ctx.raw.y} m`;
-                }
-              }
-            },
-            legend: { 
-              position: 'top',
-              labels: {
-                font: {
-                  weight: 'bold'
-                }
-              }
+        /**
+         * Toggles the visibility of the custom viscosity input based on fluid type selection.
+         */
+        function toggleCustomViscosityInput() {
+            const fluidTypeSelect = document.getElementById('fluidType');
+            const customViscosityContainer = document.getElementById('customViscosityContainer');
+            if (fluidTypeSelect.value === 'custom') {
+                customViscosityContainer.classList.remove('hidden');
+            } else {
+                customViscosityContainer.classList.add('hidden');
             }
-          },
-          scales: {
-            x: {
-              title: { 
-                display: true, 
-                text: 'Vazão (m³/h)',
-                color: '#1a237e',
-                font: {
-                  weight: 'bold'
-                }
-              },
-              beginAtZero: true,
-              min: 0,
-              max: 30,
-              grid: {
-                color: 'rgba(26,35,126,0.05)'
-              }
-            },
-            y: {
-              title: { 
-                display: true, 
-                text: 'HMT (m)',
-                color: '#1a237e',
-                font: {
-                  weight: 'bold'
-                }
-              },
-              beginAtZero: true,
-              min: 0,
-              max: 45,
-              grid: {
-                color: 'rgba(26,35,126,0.05)'
-              }
-            }
-          }
         }
-      });
-    }
 
-    function limpar() {
-      document.getElementById("saida").classList.add("d-none");
-      document.getElementById("grafico").classList.add("d-none");
-      document.getElementById("btn-pdf").style.display = "none";
-      document.getElementById("btn-print").style.display = "none";
-      
-      // Remove validação visual
-      ["volume", "tempo", "diametro", "comprimento", "altura", "material"].forEach(id => {
-        document.getElementById(id).classList.remove("is-invalid");
-      });
-      
-      if (chartHf) {
-        chartHf.destroy();
-        chartHf = null;
-      }
-      if (chartBombas) {
-        chartBombas.destroy();
-        chartBombas = null;
-      }
-    }
+        /**
+         * Validates all input fields and displays error messages if any.
+         * @returns {boolean} True if all inputs are valid, false otherwise.
+         */
+        function validateInputs() {
+            let isValid = true;
+            const inputs = [
+                { id: 'volume', min: 0, msg: 'O volume deve ser um número positivo.' },
+                { id: 'tempo', min: 0, msg: 'O tempo deve ser um número positivo.' },
+                { id: 'diametro', min: 0, msg: 'O diâmetro deve ser um número positivo.' },
+                { id: 'comprimento', min: -1, msg: 'O comprimento deve ser um número não negativo.' }, // -1 means allow 0
+                { id: 'altura', min: -1, msg: 'A altura deve ser um número não negativo.' } // -1 means allow 0
+            ];
 
-    // Exportar PDF usando print (modo simplificado)
-    function exportarPDF() {
-      window.print();
-    }
-  </script>
-  <style media="print">
-    body, html { background: #fff !important; }
-    .navbar, .btn, .input-group, select, form, .chart-container { display: none !important; }
-    .card { box-shadow: none !important; border: none !important; }
-    .resultado { border-left: 0 !important; background: #fff !important; }
-    #saida { margin-top: 0 !important; }
-  </style>
+            inputs.forEach(inputDef => {
+                const inputElement = document.getElementById(inputDef.id);
+                const errorElement = document.getElementById(`error-${inputDef.id}`);
+                const value = parseFloat(inputElement.value);
+
+                if (isNaN(value) || (inputDef.min === 0 && value <= 0) || (inputDef.min === -1 && value < 0)) {
+                    errorElement.textContent = inputDef.msg;
+                    errorElement.classList.remove('hidden');
+                    inputElement.classList.add('border-red-500', 'focus:ring-red-400');
+                    inputElement.classList.remove('border-gray-300', 'focus:ring-dark-navy-400'); // Changed from blue-500
+                    isValid = false;
+                } else {
+                    errorElement.classList.add('hidden');
+                    inputElement.classList.remove('border-red-500', 'focus:ring-red-400');
+                    inputElement.classList.add('border-gray-300', 'focus:ring-dark-navy-400'); // Changed from blue-500
+                }
+            });
+
+            const fluidTypeSelect = document.getElementById('fluidType');
+            if (fluidTypeSelect.value === 'custom') {
+                const customViscosityInput = document.getElementById('customViscosity');
+                const errorCustomViscosity = document.getElementById('error-customViscosity');
+                const customViscosityValue = parseFloat(customViscosityInput.value);
+
+                if (isNaN(customViscosityValue) || customViscosityValue <= 0) {
+                    errorCustomViscosity.textContent = 'A viscosidade deve ser um número positivo.';
+                    errorCustomViscosity.classList.remove('hidden');
+                    customViscosityInput.classList.add('border-red-500', 'focus:ring-red-400');
+                    customViscosityInput.classList.remove('border-gray-300', 'focus:ring-dark-navy-400'); // Changed from blue-500
+                    isValid = false;
+                } else {
+                    errorCustomViscosity.classList.add('hidden');
+                    customViscosityInput.classList.remove('border-red-500', 'focus:ring-red-400');
+                    customViscosityInput.classList.add('border-gray-300', 'focus:ring-dark-navy-400'); // Changed from blue-500
+                }
+            }
+
+            return isValid;
+        }
+
+        /**
+         * Performs the main hydraulic calculations and updates the results display and chart.
+         */
+        function calcular() {
+            if (!validateInputs()) {
+                document.getElementById('results-display').classList.add('hidden');
+                if (chartInstance) {
+                    chartInstance.destroy();
+                    chartInstance = null;
+                }
+                return;
+            }
+
+            // Get input values
+            const V = parseFloat(document.getElementById("volume").value);
+            const T = parseFloat(document.getElementById("tempo").value);
+            const D = parseFloat(document.getElementById("diametro").value) / 1000; // mm to meters
+            const L = parseFloat(document.getElementById("comprimento").value);
+            const H = parseFloat(document.getElementById("altura").value);
+            const material = document.getElementById("material").value;
+            const fluidType = document.getElementById("fluidType").value;
+            const customViscosity = parseFloat(document.getElementById("customViscosity").value);
+            const selectedPump = document.getElementById("selectedPump").value;
+
+            // Determine kinematic viscosity
+            const nu = fluidType === 'custom' ? customViscosity : fluidViscosities[fluidType];
+
+            // Calculate flow rate
+            const Q_m3h = (V / T) * (60 / 1000); // m³/h
+            const Q_m3s = Q_m3h / 3600; // m³/s
+
+            // Calculate pipe cross-sectional area
+            const A = (pi * D * D) / 4; // m²
+
+            // Calculate flow velocity
+            const v = Q_m3s / A; // m/s
+
+            // Calculate Reynolds number
+            const Re = (v * D) / nu;
+
+            // Determine friction factor
+            let f = fatoresAtrito[material] || 0.03;
+            if (Re < 2000) {
+                f = 64 / Re; // Laminar flow
+            }
+
+            // Calculate head loss due to friction (Darcy-Weisbach equation)
+            const hf = f * (L / D) * ((v * v) / (2 * g)); // meters
+
+            // Calculate minor losses based on selected fittings
+            let totalK = 0;
+            document.querySelectorAll('#fittings-container input[type="checkbox"]:checked').forEach(checkbox => {
+                totalK += fittingKFactors[checkbox.value].k;
+            });
+            const hacessorios = totalK * ((v * v) / (2 * g)); // meters
+
+            // Calculate Total Manometric Head (HMT)
+            const HMT = H + hf + hacessorios; // meters
+
+            let operatingPointQ = null;
+            let operatingPointHMT = null;
+            let estimatedPumpPower_kW = null;
+            let estimatedPumpPower_CV = null;
+
+            // Find operating point if a pump is selected
+            if (selectedPump && pumpCurves[selectedPump] && pumpCurves[selectedPump].data.length > 0) {
+                const currentPumpData = pumpCurves[selectedPump].data;
+                let minDiff = Infinity;
+
+                const systemCurvePoints = [];
+                for (let q = 0; q <= 40; q += 0.5) {
+                    const Q_m3s_iter = q / 3600;
+                    const A_iter = (pi * D * D) / 4;
+                    const v_iter = Q_m3s_iter / A_iter;
+                    const Re_iter = (v_iter * D) / nu;
+                    let f_iter = fatoresAtrito[material] || 0.03;
+                    if (Re_iter < 2000) {
+                        f_iter = 64 / Re_iter;
+                    }
+                    const hf_iter = f_iter * (L / D) * ((v_iter * v_iter) / (2 * g));
+                    const hacessorios_iter = totalK * ((v_iter * v_iter) / (2 * g));
+                    const HMT_system_iter = H + hf_iter + hacessorios_iter;
+                    systemCurvePoints.push({ q, hmt: HMT_system_iter });
+                }
+
+                for (let i = 0; i < systemCurvePoints.length; i++) {
+                    const systemQ = systemCurvePoints[i].q;
+                    const systemHMT = systemCurvePoints[i].hmt;
+
+                    let pumpHMTInterpolated = null;
+                    for (let j = 0; j < currentPumpData.length - 1; j++) {
+                        const q1 = currentPumpData[j].q;
+                        const h1 = currentPumpData[j].hmt;
+                        const q2 = currentPumpData[j + 1].q;
+                        const h2 = currentPumpData[j + 1].hmt;
+
+                        if (systemQ >= q1 && systemQ <= q2) {
+                            pumpHMTInterpolated = h1 + (h2 - h1) * (systemQ - q1) / (q2 - q1);
+                            break;
+                        }
+                    }
+                     if (pumpHMTInterpolated === null) {
+                        if (systemQ < currentPumpData[0].q && currentPumpData.length > 1) {
+                            const q1 = currentPumpData[0].q;
+                            const h1 = currentPumpData[0].hmt;
+                            const q2 = currentPumpData[1].q;
+                            const h2 = currentPumpData[1].hmt;
+                            pumpHMTInterpolated = h1 + (h2 - h1) * (systemQ - q1) / (q2 - q1);
+                        } else if (systemQ > currentPumpData[currentPumpData.length - 1].q && currentPumpData.length > 1) {
+                            const q1 = currentPumpData[currentPumpData.length - 2].q;
+                            const h1 = currentPumpData[currentPumpData.length - 2].hmt;
+                            const q2 = currentPumpData[currentPumpData.length - 1].q;
+                            const h2 = currentPumpData[currentPumpData.length - 1].hmt;
+                            pumpHMTInterpolated = h1 + (h2 - h1) * (systemQ - q1) / (q2 - q1);
+                        }
+                    }
+
+                    if (pumpHMTInterpolated !== null) {
+                        const diff = Math.abs(systemHMT - pumpHMTInterpolated);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            operatingPointQ = systemQ;
+                            operatingPointHMT = (systemHMT + pumpHMTInterpolated) / 2;
+                        }
+                    }
+                }
+
+                if (operatingPointQ !== null && operatingPointHMT !== null) {
+                    const hydraulicPower_kW = (fluidDensity * g * (operatingPointQ / 3600) * parseFloat(operatingPointHMT)) / 1000;
+                    estimatedPumpPower_kW = hydraulicPower_kW / overallEfficiency;
+                    estimatedPumpPower_CV = estimatedPumpPower_kW * 1.341;
+                }
+            }
+
+            // Update results display
+            document.getElementById('result-Q_m3h').textContent = Q_m3h.toFixed(2);
+            document.getElementById('result-v').textContent = v.toFixed(2);
+            document.getElementById('result-Re').textContent = Re.toFixed(0);
+            document.getElementById('result-f').textContent = f.toFixed(4);
+            document.getElementById('result-hf').textContent = hf.toFixed(2);
+            document.getElementById('result-hacessorios').textContent = hacessorios.toFixed(2);
+            document.getElementById('result-HMT').textContent = HMT.toFixed(2);
+
+            const operatingPointDisplay = document.getElementById('operating-point-display');
+            if (operatingPointQ !== null && operatingPointHMT !== null) {
+                document.getElementById('result-operatingPointQ').textContent = operatingPointQ.toFixed(2);
+                document.getElementById('result-operatingPointHMT').textContent = operatingPointHMT.toFixed(2);
+                document.getElementById('result-estimatedPumpPower_kW').textContent = estimatedPumpPower_kW.toFixed(2);
+                document.getElementById('result-estimatedPumpPower_CV').textContent = estimatedPumpPower_CV.toFixed(2);
+                operatingPointDisplay.classList.remove('hidden');
+            } else {
+                operatingPointDisplay.classList.add('hidden');
+            }
+
+            document.getElementById('results-display').classList.remove('hidden');
+
+            // Generate/update chart
+            gerarGrafico(D, L, f, H, nu, totalK, operatingPointQ, operatingPointHMT);
+        }
+
+        /**
+         * Generates or updates the Chart.js graph with system curve, pump curve, and operating point.
+         */
+        function gerarGrafico(D, L, f_base, H, nu_current, totalK_current, operatingPointQ, operatingPointHMT) {
+            const vazoes = [];
+            const hmt_data = [];
+
+            for (let q = 0; q <= 40; q += 0.5) {
+                const Q_m3s = q / 3600;
+                const A = (pi * D * D) / 4;
+                const v = Q_m3s / A;
+                const Re = (v * D) / nu_current;
+                let f_local = f_base;
+                if (Re < 2000) {
+                    f_local = 64 / Re;
+                }
+                const hf = f_local * (L / D) * ((v * v) / (2 * g));
+                const hacessorios = totalK_current * ((v * v) / (2 * g));
+                const HMT_val = H + hf + hacessorios;
+                vazoes.push(q);
+                hmt_data.push(HMT_val);
+            }
+
+            const ctx = document.getElementById("graficoHMT").getContext("2d");
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            const datasets = [{
+                label: 'Curva do Sistema (HMT)',
+                data: hmt_data.map((h, i) => ({ x: vazoes[i], y: h })),
+                borderColor: '#090935', // Cor para a linha do sistema
+                backgroundColor: 'rgba(9,9,53,0.08)', // Cor de preenchimento do sistema (transparente)
+                borderWidth: 2,
+                tension: 0.4,
+                fill: false
+            }];
+
+            const selectedPump = document.getElementById("selectedPump").value;
+            if (selectedPump && pumpCurves[selectedPump] && pumpCurves[selectedPump].data.length > 0) {
+                const pumpData = pumpCurves[selectedPump].data;
+                datasets.push({
+                    label: pumpCurves[selectedPump].name,
+                    data: pumpData.map(p => ({ x: p.q, y: p.hmt })),
+                    borderColor: '#dc2626', // Vermelho para a curva da bomba
+                    backgroundColor: 'rgba(220,38,38,0.08)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: false,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#dc2626'
+                });
+
+                if (operatingPointQ !== null && operatingPointHMT !== null) {
+                    datasets.push({
+                        label: 'Ponto de Operação',
+                        data: [{ x: parseFloat(operatingPointQ), y: parseFloat(operatingPointHMT) }],
+                        borderColor: '#16a34a', // Verde para o ponto de operação
+                        backgroundColor: '#16a34a',
+                        pointRadius: 8,
+                        pointStyle: 'circle',
+                        showLine: false,
+                        fill: false
+                    });
+                }
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: vazoes,
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Vazão (m³/h)', color: '#374151' },
+                            ticks: { color: '#4B5563' },
+                            grid: { color: 'rgba(209, 213, 219, 0.5)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'HMT (m)', color: '#374151' },
+                            beginAtZero: true,
+                            ticks: { color: '#4B5563' },
+                            grid: { color: 'rgba(209, 213, 219, 0.5)' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#374151',
+                                font: { size: 14 }
+                            }
+                        }
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        /**
+         * Clears all input fields, hides results, and destroys the chart.
+         */
+        function limpar() {
+            document.getElementById('volume').value = 3000;
+            document.getElementById('tempo').value = 3.5;
+            document.getElementById('diametro').value = 110;
+            document.getElementById('comprimento').value = 30;
+            document.getElementById('altura').value = 2;
+            document.getElementById('material').value = 'Inox';
+            document.getElementById('fluidType').value = 'water';
+            document.getElementById('customViscosity').value = '0.000001';
+            document.getElementById('selectedPump').value = '';
+
+            // Uncheck all fittings
+            document.querySelectorAll('#fittings-container input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // Hide custom viscosity input
+            document.getElementById('customViscosityContainer').classList.add('hidden');
+
+            // Hide results
+            document.getElementById('results-display').classList.add('hidden');
+            document.getElementById('operating-point-display').classList.add('hidden');
+
+            // Clear errors
+            document.querySelectorAll('[id^="error-"]').forEach(errorElement => {
+                errorElement.classList.add('hidden');
+            });
+            document.querySelectorAll('input, select').forEach(inputElement => {
+                inputElement.classList.remove('border-red-500', 'focus:ring-red-400');
+                inputElement.classList.add('border-gray-300', 'focus:ring-dark-navy-400'); // Changed from blue-500
+            });
+
+            // Destroy chart if it exists
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null;
+            }
+        }
+
+        // Initialize form elements and event listeners when the DOM is fully loaded
+        window.onload = () => {
+            initializeFormElements();
+            toggleCustomViscosityInput(); // Set initial state of custom viscosity input
+        };
+    </script>
 </body>
 </html>
