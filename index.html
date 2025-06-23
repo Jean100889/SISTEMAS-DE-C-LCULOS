@@ -6,112 +6,290 @@
   <title>Calculadora Hidráulica Avançada - GI Digital</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+    html, body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(120deg, #e0eafc 0%, #f8fafc 100%);
       min-height: 100vh;
+      color: #222;
     }
+    
     .navbar {
       border-radius: 0 0 18px 18px;
-      box-shadow: 0 2px 12px rgba(9,9,53,0.08); /* alterado */
+      box-shadow: 0 2px 12px rgba(9,9,53,0.08);
       background: #fff;
+      padding: 0.7rem 0;
     }
+    
     .navbar-brand {
-      font-weight: bold;
-      color: #090935 !important; /* alterado */
-      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a237e !important;
+      font-size: 1.7rem;
       letter-spacing: 1px;
       display: flex;
       align-items: center;
       gap: 10px;
+      text-shadow: 0 2px 8px rgba(26,35,126,0.04);
     }
-    .logo-gi {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #090935; /* alterado */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.2em;
-    }
+    
     .card {
       border: none;
       border-radius: 18px;
-      box-shadow: 0 6px 32px rgba(0,0,0,0.10);
+      box-shadow: 0 6px 32px rgba(26,35,126,0.10);
+      background: #fff;
+      padding: 2.2rem 2rem 2rem 2rem;
+      margin-bottom: 2rem;
+      transition: box-shadow 0.2s;
+    }
+    
+    .card:hover {
+      box-shadow: 0 10px 40px rgba(26,35,126,0.13);
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: #1a237e;
+      margin-bottom: 0.2rem;
+    }
+    
+    .input-group-text {
+      background: #e3eafc;
+      border: none;
+      color: #1a237e;
+      font-weight: 600;
+    }
+    
+    .form-control, .form-select {
+      border-radius: 8px;
+      border: 1.5px solid #e3eafc;
+      background: #f8fafc;
+      font-size: 1.05em;
+      transition: border-color 0.2s;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: #1a237e;
+      box-shadow: 0 0 0 2px #e3eafc;
       background: #fff;
     }
-    .form-label {
-      font-weight: 500;
+    
+    .form-control.is-invalid, .form-select.is-invalid {
+      border-color: #e53935;
+      background: #fff0f0;
     }
-    .input-group-text {
-      background: #e9f2ff;
+    
+    .btn {
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.08em;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 4px rgba(26,35,126,0.07);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(90deg, #1a237e 70%, #3949ab 100%);
+      color: #fff !important;
       border: none;
     }
+    
+    .btn-primary:hover, .btn-primary:focus {
+      background: linear-gradient(90deg, #3949ab 70%, #1a237e 100%);
+      color: #fff !important;
+      box-shadow: 0 2px 12px rgba(26,35,126,0.13);
+    }
+    
+    .btn-outline-primary, .btn-outline-secondary, .btn-outline-success {
+      border-width: 2px;
+      background: #f8fafc;
+      color: #1a237e !important;
+    }
+    
+    .btn-outline-primary:hover, .btn-outline-secondary:hover, .btn-outline-success:hover {
+      background: #1a237e !important;
+      color: #fff !important;
+      border-color: #1a237e !important;
+    }
+    
+    .btn-outline-primary:active, .btn-outline-secondary:active, .btn-outline-success:active {
+      background: #3949ab !important;
+      color: #fff !important;
+    }
+    
+    .titulo-principal {
+      color: #1a237e !important;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 8px rgba(26,35,126,0.04);
+    }
+    
     .resultado {
-      background: #f0f8ff;
-      border-left: 6px solid #090935; /* alterado */
-      padding: 20px 24px;
-      margin-top: 24px;
-      border-radius: 10px;
-      font-size: 1.08rem;
-      box-shadow: 0 2px 12px rgba(9,9,53,0.07); /* alterado */
+      background: #f4f8ff;
+      border-left: 6px solid #3949ab;
+      padding: 22px 28px;
+      margin-top: 28px;
+      border-radius: 12px;
+      font-size: 1.12rem;
+      box-shadow: 0 2px 12px rgba(26,35,126,0.07);
       animation: fadeIn 0.7s;
     }
+    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px);}
       to { opacity: 1; transform: translateY(0);}
     }
-    .btn-primary,
-    .btn-outline-primary,
-    .btn-outline-secondary,
-    .btn-outline-success {
-      color: #090935 !important;
-      border-color: #090935 !important;
-      background-color: #fff !important;
+    
+    .table {
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+      margin-bottom: 0;
     }
-
-    .btn-primary {
-      background-color: #090935 !important;
-      color: #fff !important;
-      border-color: #090935 !important;
-    }
-
-    .btn-primary:hover,
-    .btn-outline-primary:hover,
-    .btn-outline-secondary:hover,
-    .btn-outline-success:hover {
-      background-color: #090935 !important;
-      color: #fff !important;
-      border-color: #090935 !important;
-    }
-
-    .tooltip-inner {
-      background: #090935; /* alterado */
-      color: #fff;
-      font-size: 0.95em;
-    }
-    .chart-container {
-      background: #f8fbff;
-      border-radius: 12px;
-      padding: 18px 12px;
-      margin-top: 24px;
-      box-shadow: 0 1px 8px rgba(9,9,53,0.06); /* alterado */
-    }
-    @media (max-width: 767px) {
-      .navbar-brand { font-size: 1.1rem; }
-      .logo-gi { width: 30px; height: 30px; font-size: 1em;}
-      .card { padding: 1rem !important; }
-      .resultado { font-size: 0.98rem; }
-      .table-responsive { font-size: 0.95rem; }
-    }
+    
     .table th, .table td {
       vertical-align: middle;
+      border: none;
+      font-size: 1.04em;
     }
-    .titulo-principal {
-      color: #090935 !important;
+    
+    .table thead th {
+      background: #e3eafc;
+      color: #1a237e;
+      font-weight: 700;
+      border-bottom: 2px solid #c5cae9;
+    }
+    
+    .table tbody tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    
+    .badge {
+      font-size: 1em;
+      border-radius: 6px;
+      padding: 0.5em 0.8em;
+      font-weight: 600;
+    }
+    
+    .badge.bg-success {
+      background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+      color: #1a237e;
+    }
+    
+    .badge.bg-warning {
+      background: linear-gradient(90deg, #ffe259 0%, #ffa751 100%);
+      color: #1a237e;
+    }
+    
+    .badge.bg-danger {
+      background: linear-gradient(90deg, #ff5858 0%, #f09819 100%);
+      color: #fff;
+    }
+    
+    .chart-container {
+      background: rgba(244, 248, 255, 0.95);
+      border-radius: 14px;
+      padding: 22px 16px 18px 16px;
+      margin-top: 28px;
+      box-shadow: 0 1px 8px rgba(26,35,126,0.06);
+      min-height: 350px;
+      height: 400px;
+    }
+    
+    canvas {
+      min-height: 320px !important;
+      height: 380px !important;
+      max-width: 100%;
+      display: block;
+      margin: 0 auto;
+      background: transparent;
+    }
+    
+    .table-responsive {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+    
+    .bi-info-circle {
+      font-size: 1.1em;
+      vertical-align: middle;
+      margin-left: 2px;
+      color: #3949ab;
+      opacity: 0.8;
+    }
+    
+    .alert-danger {
+      background: linear-gradient(90deg, #ffdde1 0%, #ee9ca7 100%);
+      color: #b71c1c;
+      border: none;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+    
+    .alert-success {
+      background: linear-gradient(90deg, #e0ffe9 0%, #b2fefa 100%);
+      color: #1b5e20;
+      border: none;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+    
+    .alert-warning {
+      background: linear-gradient(90deg, #fffde4 0%, #f9d423 100%);
+      color: #ff6f00;
+      border: none;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+    
+    .table th, .table td {
+      padding: 0.7em 1em;
+    }
+    
+    .table th {
+      font-size: 1.08em;
+    }
+    
+    .table td {
+      font-size: 1.04em;
+    }
+    
+    .table-bordered > :not(caption) > * > * {
+      border-width: 0 0 1.5px 0;
+      border-color: #e3eafc;
+    }
+    
+    .table-bordered > :not(caption) > *:last-child > * {
+      border-bottom-width: 0;
+    }
+    
+    .tooltip-inner {
+      background: #3949ab;
+      color: #fff;
+      font-size: 1em;
+      border-radius: 6px;
+      padding: 0.5em 1em;
+    }
+    
+    .input-group-text i {
+      color: #3949ab;
+    }
+    
+    /* Responsividade */
+    @media (max-width: 991px) {
+      .card { padding: 1.2rem 0.7rem 1.2rem 0.7rem; }
+      .chart-container { padding: 12px 4px 10px 4px; }
+      .resultado { padding: 14px 8px; }
+    }
+    
+    @media (max-width: 767px) {
+      .navbar-brand { font-size: 1.1rem; }
+      .card { padding: 0.7rem !important; }
+      .resultado { font-size: 0.98rem; }
+      .table-responsive { font-size: 0.95rem; }
+      .chart-container { min-height: 220px; height: 260px; }
+      canvas { min-height: 180px !important; height: 220px !important; }
     }
   </style>
 </head>
@@ -215,6 +393,10 @@
             <h6 class="text-primary mb-2"><i class="bi bi-graph-up"></i> Curva de Perda de Carga x Vazão</h6>
             <canvas id="chartHf"></canvas>
           </div>
+          <div class="chart-container mt-4">
+            <h6 class="text-primary mb-2"><i class="bi bi-bar-chart"></i> Curvas das Bombas</h6>
+            <canvas id="graficoBombas"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -240,6 +422,7 @@
     };
 
     let chartHf = null;
+    let chartBombas = null;
 
     function calcular() {
       const pi = Math.PI;
@@ -284,9 +467,9 @@
       // Cálculos principais
       const Q_m3h = (V / T) * (60 / 1000); // m³/h
       const Q_Lmin = Q_m3h * 1000 / 60; // L/min
-      const Q_m3s = Q_m3h / 3.6; // m³/s
+      const Q_m3s = Q_m3h / 3600; // m³/s (corrigido de 3.6 para 3600)
       const A = (pi * D * D) / 4; // m²
-      const v = (Q_m3s / A); // m/s 
+      const v = Q_m3s / A; // m/s (removida a divisão por 1000)
       const Re = (v * D) / nu; // Número de Reynolds
 
       // Fator de atrito
@@ -406,7 +589,8 @@
       document.getElementById("btn-print").style.display = "inline-block";
 
       // Gráfico de curva de perda de carga
-      gerarGraficoCurva(D, L, f, Hgeom, 0.15);
+      gerarGraficoCurva(D, L, f, Hgeom, percAcessorios);
+      gerarGraficoBombas(Q_m3h, HMT);
 
       // Scroll para resultados
       setTimeout(() => {
@@ -423,9 +607,9 @@
       const vazoes = [];
       const hmt = [];
       for (let q = 5; q <= 25; q += 1) {
-        const Q_m3s = q / 3.6;
+        const Q_m3s = q / 3600; // Corrigido para converter m³/h para m³/s
         const A = (pi * D * D) / 4;
-        const v = (Q_m3s / A) / 1000; // Dividido por 1000
+        const v = Q_m3s / A;
         const Re = (v * D) / nu;
         let f_local = f;
         if (Re < 2000) f_local = 64 / Re;
@@ -446,15 +630,18 @@
           datasets: [{
             label: 'HMT (m)',
             data: hmt,
-            borderColor: '#090935', // alterado
-            backgroundColor: 'rgba(9,9,53,0.08)', // alterado
+            borderColor: '#1a237e',
+            backgroundColor: 'rgba(26,35,126,0.08)',
+            borderWidth: 2,
             tension: 0.25,
-            pointRadius: 2,
+            pointRadius: 4,
+            pointBackgroundColor: '#3949ab',
             fill: true
           }]
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             legend: { display: false },
             tooltip: {
@@ -465,11 +652,132 @@
           },
           scales: {
             x: {
-              title: { display: true, text: 'Vazão (m³/h)' }
+              title: { 
+                display: true, 
+                text: 'Vazão (m³/h)',
+                color: '#1a237e',
+                font: {
+                  weight: 'bold'
+                }
+              },
+              grid: {
+                color: 'rgba(26,35,126,0.05)'
+              }
             },
             y: {
-              title: { display: true, text: 'Altura Manométrica Total (m)' },
-              beginAtZero: true
+              title: { 
+                display: true, 
+                text: 'Altura Manométrica Total (m)',
+                color: '#1a237e',
+                font: {
+                  weight: 'bold'
+                }
+              },
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(26,35,126,0.05)'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function gerarGraficoBombas(Q_m3h, HMT) {
+      const ctx = document.getElementById('graficoBombas').getContext('2d');
+
+      const bombas = [
+        { modelo: "2 CV", vazaoMin: 6, vazaoMax: 12, hmtMin: 15, hmtMax: 25, cor: "rgba(67, 160, 71, 0.2)", borderColor: "rgba(67, 160, 71, 1)" },
+        { modelo: "3 CV", vazaoMin: 10, vazaoMax: 18, hmtMin: 18, hmtMax: 32, cor: "rgba(57, 73, 171, 0.2)", borderColor: "rgba(57, 73, 171, 1)" },
+        { modelo: "5 CV", vazaoMin: 16, vazaoMax: 28, hmtMin: 25, hmtMax: 40, cor: "rgba(239, 108, 0, 0.2)", borderColor: "rgba(239, 108, 0, 1)" }
+      ];
+
+      if (chartBombas) chartBombas.destroy();
+
+      const datasets = bombas.map(b => ({
+        label: b.modelo,
+        data: [
+          { x: b.vazaoMin, y: b.hmtMax },
+          { x: b.vazaoMax, y: b.hmtMin }
+        ],
+        backgroundColor: b.cor,
+        borderColor: b.borderColor,
+        borderWidth: 2,
+        fill: false,
+        tension: 0.4,
+        pointRadius: 0
+      }));
+
+      // Adiciona ponto do sistema com os valores calculados
+      datasets.push({
+        label: 'Ponto do Sistema',
+        data: [{ x: Q_m3h, y: HMT }],
+        backgroundColor: '#ffc107',
+        borderColor: '#ff9800',
+        pointRadius: 8,
+        pointHoverRadius: 10,
+        type: 'scatter',
+        showLine: false
+      });
+
+      chartBombas = new Chart(ctx, {
+        type: 'line',
+        data: { datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: ctx => {
+                  if (ctx.dataset.label === 'Ponto do Sistema') {
+                    return `Ponto do Sistema: ${Q_m3h.toFixed(2)} m³/h, ${HMT.toFixed(2)} m`;
+                  }
+                  return `${ctx.dataset.label}: ${ctx.raw.x} m³/h, ${ctx.raw.y} m`;
+                }
+              }
+            },
+            legend: { 
+              position: 'top',
+              labels: {
+                font: {
+                  weight: 'bold'
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: { 
+                display: true, 
+                text: 'Vazão (m³/h)',
+                color: '#1a237e',
+                font: {
+                  weight: 'bold'
+                }
+              },
+              beginAtZero: true,
+              min: 0,
+              max: 30,
+              grid: {
+                color: 'rgba(26,35,126,0.05)'
+              }
+            },
+            y: {
+              title: { 
+                display: true, 
+                text: 'HMT (m)',
+                color: '#1a237e',
+                font: {
+                  weight: 'bold'
+                }
+              },
+              beginAtZero: true,
+              min: 0,
+              max: 45,
+              grid: {
+                color: 'rgba(26,35,126,0.05)'
+              }
             }
           }
         }
@@ -481,11 +789,20 @@
       document.getElementById("grafico").classList.add("d-none");
       document.getElementById("btn-pdf").style.display = "none";
       document.getElementById("btn-print").style.display = "none";
+      
       // Remove validação visual
       ["volume", "tempo", "diametro", "comprimento", "altura", "material"].forEach(id => {
         document.getElementById(id).classList.remove("is-invalid");
       });
-      if (chartHf) chartHf.destroy();
+      
+      if (chartHf) {
+        chartHf.destroy();
+        chartHf = null;
+      }
+      if (chartBombas) {
+        chartBombas.destroy();
+        chartBombas = null;
+      }
     }
 
     // Exportar PDF usando print (modo simplificado)
