@@ -13,12 +13,12 @@
     }
     .navbar {
       border-radius: 0 0 18px 18px;
-      box-shadow: 0 2px 12px rgba(13,110,253,0.08);
+      box-shadow: 0 2px 12px rgba(9,9,53,0.08); /* alterado */
       background: #fff;
     }
     .navbar-brand {
       font-weight: bold;
-      color: #0d6efd !important;
+      color: #090935 !important; /* alterado */
       font-size: 1.5rem;
       letter-spacing: 1px;
       display: flex;
@@ -29,7 +29,7 @@
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      background: #0d6efd;
+      background: #090935; /* alterado */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -52,24 +52,44 @@
     }
     .resultado {
       background: #f0f8ff;
-      border-left: 6px solid #0d6efd;
+      border-left: 6px solid #090935; /* alterado */
       padding: 20px 24px;
       margin-top: 24px;
       border-radius: 10px;
       font-size: 1.08rem;
-      box-shadow: 0 2px 12px rgba(13,110,253,0.07);
+      box-shadow: 0 2px 12px rgba(9,9,53,0.07); /* alterado */
       animation: fadeIn 0.7s;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px);}
       to { opacity: 1; transform: translateY(0);}
     }
-    .btn-primary, .btn-outline-secondary {
-      font-weight: 500;
-      letter-spacing: 0.5px;
+    .btn-primary,
+    .btn-outline-primary,
+    .btn-outline-secondary,
+    .btn-outline-success {
+      color: #090935 !important;
+      border-color: #090935 !important;
+      background-color: #fff !important;
     }
+
+    .btn-primary {
+      background-color: #090935 !important;
+      color: #fff !important;
+      border-color: #090935 !important;
+    }
+
+    .btn-primary:hover,
+    .btn-outline-primary:hover,
+    .btn-outline-secondary:hover,
+    .btn-outline-success:hover {
+      background-color: #090935 !important;
+      color: #fff !important;
+      border-color: #090935 !important;
+    }
+
     .tooltip-inner {
-      background: #0d6efd;
+      background: #090935; /* alterado */
       color: #fff;
       font-size: 0.95em;
     }
@@ -78,7 +98,7 @@
       border-radius: 12px;
       padding: 18px 12px;
       margin-top: 24px;
-      box-shadow: 0 1px 8px rgba(13,110,253,0.06);
+      box-shadow: 0 1px 8px rgba(9,9,53,0.06); /* alterado */
     }
     @media (max-width: 767px) {
       .navbar-brand { font-size: 1.1rem; }
@@ -90,13 +110,15 @@
     .table th, .table td {
       vertical-align: middle;
     }
+    .titulo-principal {
+      color: #090935 !important;
+    }
   </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg mb-4 sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="#">
-        <span class="logo-gi">GI</span>
+      <a class="navbar-brand mx-auto" href="#">
         Calculadora Hidráulica Avançada
       </a>
     </div>
@@ -105,8 +127,8 @@
     <div class="row justify-content-center">
       <div class="col-lg-8 col-md-10">
         <div class="card p-4">
-          <h2 class="text-center mb-4 text-primary fw-bold">
-            <i class="bi bi-droplet-half"></i> Bombeamento de Caldas Agrícolas
+          <h2 class="text-center mb-4 fw-bold titulo-principal">
+            Bombeamento de Caldas Agrícolas
           </h2>
           <form id="form-calc" autocomplete="off">
             <div class="row g-3">
@@ -132,12 +154,12 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label" for="diametro">
-                  Diâmetro interno da tubulação (m)
-                  <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" title="Diâmetro interno da tubulação em metros"></i>
+                  Diâmetro interno da tubulação (mm)
+                  <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" title="Diâmetro interno da tubulação em milímetros"></i>
                 </label>
                 <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-arrow-left-right"></i></span>
-                  <input type="number" id="diametro" class="form-control" value="0.110" step="0.001" min="0.01" required/>
+                  <span class="input-group-text">Ø</span>
+                  <input type="number" id="diametro" class="form-control" value="110" step="1" min="10" required/>
                 </div>
               </div>
               <div class="col-md-6">
@@ -227,7 +249,7 @@
       // Entradas
       const V = parseFloat(document.getElementById("volume").value);
       const T = parseFloat(document.getElementById("tempo").value);
-      const D = parseFloat(document.getElementById("diametro").value);
+      const D = parseFloat(document.getElementById("diametro").value) / 1000; // mm para m
       const L = parseFloat(document.getElementById("comprimento").value);
       const Hgeom = parseFloat(document.getElementById("altura").value);
       const material = document.getElementById("material").value;
@@ -264,7 +286,7 @@
       const Q_Lmin = Q_m3h * 1000 / 60; // L/min
       const Q_m3s = Q_m3h / 3.6; // m³/s
       const A = (pi * D * D) / 4; // m²
-      const v = (Q_m3s / A) / 1000; // m/s (dividido por 1000 conforme solicitado)
+      const v = (Q_m3s / A); // m/s 
       const Re = (v * D) / nu; // Número de Reynolds
 
       // Fator de atrito
@@ -348,7 +370,7 @@
               </tr>
               <tr>
                 <th><i class="bi bi-speedometer2"></i> Velocidade do fluido</th>
-                <td>${v.toFixed(5)} m/s <span class="text-muted">(valor dividido por 1000)</span></td>
+                <td>${v.toFixed(5)} m/s <span class="text-muted"></span></td>
               </tr>
               <tr>
                 <th><i class="bi bi-123"></i> Número de Reynolds</th>
@@ -424,8 +446,8 @@
           datasets: [{
             label: 'HMT (m)',
             data: hmt,
-            borderColor: '#0d6efd',
-            backgroundColor: 'rgba(13,110,253,0.08)',
+            borderColor: '#090935', // alterado
+            backgroundColor: 'rgba(9,9,53,0.08)', // alterado
             tension: 0.25,
             pointRadius: 2,
             fill: true
