@@ -43,40 +43,11 @@
             min-height: 100vh;
             color: #222;
         }
-        /* Specific styles for responsive navigation, similar to React version */
-        @media (max-width: 768px) {
-            .nav-link-item {
-                display: block;
-                padding: 0.5rem 1rem;
-                width: 100%;
-                text-align: center;
-            }
-            .hidden.md\:flex {
-                display: none;
-            }
-            .md\:hidden {
-                display: block;
-            }
-        }
+        /* Removed specific styles for responsive navigation as navbar is removed */
     </style>
 </head>
 <body class="font-inter antialiased">
-    <!-- Navigation Bar -->
-    <nav class="bg-dark-navy text-white shadow-lg p-4 sticky top-0 z-50 rounded-b-xl">
-        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-            <a href="#" class="flex items-center text-xl font-bold rounded-lg px-3 py-2 hover:bg-dark-navy-800 transition-colors">
-                <i class="bi bi-calculator mr-2"></i> Calculadora Hidráulica Avançada
-            </a>
-            <button class="md:hidden text-white focus:outline-none" onclick="document.getElementById('navbarNav').classList.toggle('hidden')">
-                <i class="bi bi-list text-2xl"></i>
-            </button>
-            <ul id="navbarNav" class="hidden md:flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 mt-4 md:mt-0">
-                <li><a href="#" class="nav-link-item hover:text-dark-navy-500 transition-colors">Início</a></li>
-                <li><a href="#" class="nav-link-item hover:text-dark-navy-500 transition-colors">Sobre</a></li>
-                <li><a href="#" class="nav-link-item hover:text-dark-navy-500 transition-colors">Contato</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Navigation Bar Removed -->
 
     <!-- Main Content Area -->
     <div class="container mx-auto py-8 px-4">
